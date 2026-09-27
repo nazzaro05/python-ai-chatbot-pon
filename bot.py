@@ -41,7 +41,7 @@ def train_from_file(trainer, file_path):
         
         # Opzionale: Backup del modello testuale
         try:
-            with open(r"modello.txt", 'ab') as out_file:
+            with open("modello.txt", 'ab') as out_file:
                 dill.dump(training_data, out_file)
         except Exception as e:
             print(f"Avviso: Impossibile salvare il modello testuale ({e})")
@@ -51,15 +51,15 @@ def train_from_file(trainer, file_path):
 def log_conversation(statement):
     """Salva lo statement della conversazione nel log locale."""
     try:
-        with open(r"risposte.txt", 'ab') as file:
+        with open("risposte.txt", 'ab') as file:
             dill.dump(statement, file)
-    except Exception as e:
-        pass # Ignora l'errore se il file non è accessibile o non necessario in produzione
+    except Exception:
+        pass 
 
 # Inizializza il file del modello testuale se non esiste
 try:
-    if not os.path.exists(r"modello.txt"):
-        with open(r"modello.txt", 'wb') as file:
+    if not os.path.exists("modello.txt"):
+        with open("modello.txt", 'wb') as file:
             dill.dump("", file)
 except Exception:
     pass
@@ -74,29 +74,40 @@ if choice_default == "S":
     
     trainer = ListTrainer(bot)
     
-    # Lista dei moduli di training di base
+    # Lista dei moduli di base gestita in modo sicuro per ogni OS
     default_modules = [
-        r"Training\sports.yml", r"Training\scienza.yml", r"Training\psicologia.yml",
-        r"Training\politica.yml", r"Training\movies.yml", r"Training\soldi.yml",
-        r"Training\humor.yml", r"Training\gossip.yml", r"Training\emozioni.yml",
-        r"Training\computers.yml", r"Training\ai.yml", r"Training\profilo.yml"
+        os.path.join("Training", "sports.yml"),
+        os.path.join("Training", "scienza.yml"),
+        os.path.join("Training", "psicologia.yml"),
+        os.path.join("Training", "politica.yml"),
+        os.path.join("Training", "movies.yml"),
+        os.path.join("Training", "soldi.yml"),
+        os.path.join("Training", "humor.yml"),
+        os.path.join("Training", "gossip.yml"),
+        os.path.join("Training", "emozioni.yml"),
+        os.path.join("Training", "computers.yml"),
+        os.path.join("Training", "ai.yml"),
+        os.path.join("Training", "profilo.yml")
     ]
     
     for module in default_modules:
         train_from_file(trainer, module)
         
-    trainer.export_for_training("./training.txt")
+    trainer.export_for_training("training.txt")
     print("Training di default completato.")
 
 choice_custom = input("Eseguire il training personalizzato (ListTrainer)? (S/N): ").strip().upper()
 if choice_custom == "S":
     trainer = ListTrainer(bot)
-    custom_modules = [r"Training\animali.yml", r"Training\itisInformatica.yml"]
+    custom_modules = [
+        os.path.join("Training", "animali.yml"),
+        os.path.join("Training", "itisInformatica.yml")
+    ]
     
     for module in custom_modules:
         train_from_file(trainer, module)
         
-    trainer.export_for_training("./training.txt")
+    trainer.export_for_training("training.txt")
     print("Training personalizzato completato.")
 
 # ---------------------------------------------------------
@@ -105,7 +116,7 @@ if choice_custom == "S":
 def invia_messaggio_gui():
     """Gestisce l'invio del messaggio tramite interfaccia grafica."""
     messaggio = messaggio_inserito.get().strip()
-    if non messaggio:
+    if not messaggio:
         return
 
     statement = Statement(text=messaggio)
@@ -134,14 +145,14 @@ if choice_gui == "S":
 
     chat = tk.Text(root, bd=1, height="8", width="50", font=("Arial", 16))
     chat.config(state=tk.DISABLED)
-    chat.configure(bg="#f4f4f4") # Sostituito il rosso acceso con un grigio chiaro più formale
+    chat.configure(bg="#f4f4f4")
     
     chat.configure(state=tk.NORMAL)
     chat.insert(tk.END, "Yatsu: Ciao, come posso aiutarti?\n")
     chat.configure(state=tk.DISABLED)
 
     try:
-        logo = tk.PhotoImage(file=r"YatsuImage.png").subsample(18)
+        logo = tk.PhotoImage(file="YatsuImage.png").subsample(18)
         logo_label = tk.Label(root, image=logo, bg="#f4f4f4")
         logo_label.place(relx=1.0, x=-10, y=10, anchor="ne")
     except Exception as e:

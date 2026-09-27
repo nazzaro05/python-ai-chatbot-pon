@@ -1,17 +1,15 @@
 # YatsuBot - Python AI Chatbot (Progetto PON)
 
-Questo progetto è un chatbot in Python sviluppato originariamente come elaborato finale per il modulo "Robotica Educativa e Coding" (Maggio 2023) e successivamente ampliato.
+Chatbot sviluppato in Python come elaborato finale per il modulo scolastico "Robotica Educativa e Coding" (Maggio 2023). Il progetto esplora le basi dell'Intelligenza Artificiale conversazionale, l'elaborazione del linguaggio naturale (NLP) e la creazione di interfacce grafiche desktop.
 
-Il bot utilizza la libreria `chatterbot` per elaborare il linguaggio naturale e gestire le conversazioni. È in grado di apprendere dinamicamente nuovi input dall'utente (salvandoli in un database SQLite locale) ed è stato pre-addestrato su una serie di file YAML tematici (informatica, IA, emozioni, ecc.).
+## Stack Tecnologico
+- **Linguaggio:** Python 3
+- **Libreria NLP/Chatbot:** ChatterBot (con metriche di similarità e adapter logici per la valutazione matematica)
+- **Interfaccia Grafica (GUI):** Tkinter
+- **Addestramento:** Dataset testuali strutturati in formato YAML (`ChatterBotCorpusTrainer` e `ListTrainer`)
 
-## Funzionalità principali
-- **NLP e Machine Learning:** Utilizza il `BestMatch` logic adapter per trovare la risposta più coerente in base alla soglia di similarità (0.94).
-- **Addestramento modulare:** Il bot carica dataset specifici (YAML) tramite `ChatterBotCorpusTrainer` e `ListTrainer`.
-- **Interfaccia Grafica:** Implementa una GUI creata con `tkinter` per permettere l'interazione visiva, con supporto di fallback a riga di comando (CLI) tramite `colorama`.
-- **Apprendimento continuo:** Nel file sorgente, la funzione `bot.learn_response(statement)` permette al bot di registrare nuovi pattern conversazionali in tempo reale.
+## Architettura del Codice
+- `bot.py`: Script principale che gestisce l'inizializzazione del motore di chat, il caricamento dei moduli di training e l'interfaccia utente (con supporto opzionale a riga di comando).
+- Cartella `Training/`: Contiene i dataset tematici in formato YAML utilizzati per addestrare il bot su vari domini (informatica, IA, emozioni, etc.), inclusi moduli personalizzati legati al contesto scolastico.
 
-## Struttura del codice
-- `bot.py`: Il file core contenente la logica di inizializzazione, l'impostazione degli adapter e la gestione dell'interfaccia grafica.
-- Cartella `Training`: Contiene i dataset YAML utilizzati per addestrare il bot su vari argomenti.
-
-*Nota: I file del database SQLite e i log di conversazione generati durante i test locali sono stati esclusi dal repository per questioni di privacy e pulizia del codice.*
+*Nota: I log di conversazione locali (`risposte.txt`, `modello.txt`) e i database SQLite generati durante l'esecuzione sono esclusi dal controllo di versione per best practice di sicurezza e pulizia del codice.*
